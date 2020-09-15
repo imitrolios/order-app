@@ -1,0 +1,24 @@
+spring:
+  jpa:
+    generate-ddl: true
+    show-sql: true
+    open-in-view: false
+    hibernate:
+      ddl-auto: update
+    properties:
+      hibernate:
+        dialect:
+server:
+  port: 8081
+management:
+  endpoints:
+    web:
+      exposure:
+        include: heapdump,liquibase,loggers,prometheus,threaddump,info,metrics,health
+  health:
+    db:
+      enabled: true
+    defaults:
+      enabled: true
+    diskspace:
+      enabled: true

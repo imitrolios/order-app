@@ -2,11 +2,11 @@
 <project xmlns="http://maven.apache.org/POM/4.0.0" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
          xsi:schemaLocation="http://maven.apache.org/POM/4.0.0 https://maven.apache.org/xsd/maven-4.0.0.xsd">
     <modelVersion>4.0.0</modelVersion>
-    <groupId>org.shared-expenses</groupId>
+    <groupId>org.orderapi</groupId>
     <artifactId>parent</artifactId>
     <version>0.0.1-SNAPSHOT</version>
     <name>parent</name>
-    <description>Parent for Shared Expenses</description>
+    <description>Parent for Order App</description>
     <packaging>pom</packaging>
 
     <parent>
@@ -53,12 +53,14 @@
                 <version>1.3.1.Final</version>
             </dependency>
         </dependencies>
+
     </dependencyManagement>
 
     <modules>
         <module>api-gateway</module>
-		<module>apartment</module>
+        <module>order</module>
         <module>common</module>
+        <module>product</module>
     </modules>
 
 </project>
