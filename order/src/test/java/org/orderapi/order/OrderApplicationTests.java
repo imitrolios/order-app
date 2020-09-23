@@ -18,11 +18,15 @@ import org.springframework.http.MediaType;
 import org.springframework.test.web.servlet.MockMvc;
 import org.springframework.test.web.servlet.MvcResult;
 
+import java.util.List;
+
 import static org.junit.jupiter.api.Assertions.assertEquals;
 import static org.junit.jupiter.api.Assertions.assertNotNull;
 import static org.springframework.test.web.servlet.request.MockMvcRequestBuilders.get;
 import static org.springframework.test.web.servlet.request.MockMvcRequestBuilders.post;
 import static org.springframework.test.web.servlet.result.MockMvcResultMatchers.status;
+
+import com.fasterxml.jackson.core.type.TypeReference;
 
 @SpringBootTest
 @AutoConfigureMockMvc
@@ -54,7 +58,7 @@ class OrderApplicationTests {
                 "Content type not JSON");
         assertEquals(orderResult.getResponse().getStatus(), HttpStatus.CREATED.value(),
                 "HttpStatus not 201 Created");
-        assertNotNull(orderDto.getId(),"orderDto.id is null");
+        assertNotNull(orderDto.getId(), "orderDto.id is null");
         assertEquals(orderDto.getAddressDto().getPostalCode(), "15771", "orderDto.addressDto.postalCode" +
                 "ne to 15771 hardcoded initial value");
     }
@@ -98,6 +102,31 @@ class OrderApplicationTests {
         assertEquals(errorResponseDto.getStatus(), HttpStatus.BAD_REQUEST.value());
         assertNotNull(errorResponseDto.getError());
         assertNotNull(errorResponseDto.getMessage());
+    }
+
+    @Test
+    void testFetchAllOrders() throws Exception {
+        populateDb(4);
+        MvcResult mvcResult = this.mockMvc.perform(get("http://localhost:8081/order")
+                .contentType("application/json")
+                .accept("application/json"))
+                .andExpect(status().is2xxSuccessful())
+                .andReturn();
+
+        ObjectMapper om = new ObjectMapper();
+        om.registerModule(new JavaTimeModule());
+        List<OrderDto> orders = om.readValue(mvcResult.getResponse().getContentAsString(),
+                new TypeReference<>() {
+                });
+        assertEquals(mvcResult.getResponse().getContentType(), MediaType.APPLICATION_JSON_VALUE);
+        assertEquals(mvcResult.getResponse().getStatus(), HttpStatus.OK.value());
+        assertEquals(4, orders.size());
+    }
+
+    private void populateDb(int count) {
+        for (int i = 0; i < count; i++) {
+            orderRepository.saveAndFlush(createOrderForTest());
+        }
     }
 
     private Order createOrderForTest() {

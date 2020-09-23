@@ -9,6 +9,9 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpStatus;
 import org.springframework.web.bind.annotation.*;
 
+import java.util.List;
+import java.util.stream.Collectors;
+
 @RestController
 @RequestMapping("/order")
 public class OrderController {
@@ -28,6 +31,13 @@ public class OrderController {
                 orderRepository.findById(orderId).orElseThrow(
                         () -> new ApplicationBadInputException(ORDER_BY_ID_NOT_FOUND));
         return orderMapper.toDto(order);
+    }
+
+    @GetMapping
+    @ResponseStatus(HttpStatus.OK)
+    public List<OrderDto> fetchOrders() {
+        List<Order> orders = orderRepository.findAll();
+        return orders.stream().map(o -> orderMapper.toDto(o)).collect(Collectors.toList());
     }
 
     @PutMapping

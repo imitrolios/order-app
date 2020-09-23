@@ -4,15 +4,10 @@ spring:
     show-sql: true
     open-in-view: false
     hibernate:
-      ddl-auto: validate
+      ddl-auto: update
     properties:
       hibernate:
-        dialect: org.hibernate.dialect.PostgreSQLDialect
-  datasource:
-    url: jdbc:postgresql://localhost:5432/crm_dev
-    username: admin
-    password: admin
-    driver-class-name: org.postgresql.Driver
+        dialect:
 server:
   port: 8081
 management:
