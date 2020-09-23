@@ -1,0 +1,78 @@
+version: '3'
+
+networks:
+  dev-network:
+    driver: bridge
+
+volumes:
+  auth_postgres_data:
+    driver: local
+  crm_postgres_data:
+    driver: local
+  kafka_data:
+    driver: local
+  redis_data:
+    driver: local
+
+services:
+  keycloak-postgres-dev.dev:
+    image: 'postgres'
+    volumes:
+      - auth_postgres_data:/var/lib/postgresql/data
+    environment:
+      POSTGRES_DB: keycloak
+      POSTGRES_USER: keycloak
+      POSTGRES_PASSWORD: keycloak
+    ports:
+      - 5433:5432
+    networks:
+      - dev-network
+  keycloak-dev.dev:
+    image: 'jboss/keycloak:8.0.1'
+    environment:
+      DB_VENDOR: POSTGRES
+      DB_ADDR: keycloak-postgres-dev.dev
+      DB_DATABASE: keycloak
+      DB_USER: keycloak
+      DB_SCHEMA: public
+      DB_PASSWORD: keycloak
+      KEYCLOAK_USER: admin
+      KEYCLOAK_PASSWORD: admin
+    ports:
+      - 8085:8080
+    depends_on:
+      - keycloak-postgres-dev.dev
+    networks:
+      - dev-network
+  crm-postgres-order.dev:
+    image: 'postgres:9.6.16'
+    volumes:
+      - crm_postgres_data:/var/lib/postgresql/data
+    environment:
+      POSTGRES_DB: crm_order_dev
+      POSTGRES_USER: admin
+      POSTGRES_PASSWORD: admin
+    ports:
+      - 5432:5432
+    networks:
+      - dev-network
+  crm-postgres-user.dev:
+    image: 'postgres:9.6.16'
+    volumes:
+      - crm_postgres_data:/var/lib/postgresql/data
+    environment:
+      POSTGRES_DB: crm_user_dev
+      POSTGRES_USER: admin
+      POSTGRES_PASSWORD: admin
+    ports:
+      - 5434:5432
+    networks:
+      - dev-network
+  redis-dev.dev:
+    image: 'redis:5.0.7'
+    volumes:
+      - redis_data:/data
+    ports:
+      - 6379:6379
+    networks:
+      - dev-network

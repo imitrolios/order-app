@@ -6,11 +6,11 @@
     <parent>
         <groupId>org.orderapi</groupId>
         <artifactId>parent</artifactId>
-        <version>0.0.1-SNAPSHOT</version>
+        <version>${revision}${changelist}</version>
     </parent>
 
     <artifactId>api-gateway</artifactId>
-    <version>0.0.1-SNAPSHOT</version>
+    <version>${revision}${changelist}</version>
     <name>api-gateway</name>
     <description>Api gateway for Shared Expenses</description>
 

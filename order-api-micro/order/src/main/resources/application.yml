@@ -9,7 +9,7 @@ spring:
       hibernate:
         dialect: org.hibernate.dialect.PostgreSQLDialect
   datasource:
-    url: jdbc:postgresql://localhost:5432/crm_dev
+    url: jdbc:postgresql://localhost:5432/crm_order_dev
     username: admin
     password: admin
     driver-class-name: org.postgresql.Driver

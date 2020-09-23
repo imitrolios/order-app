@@ -5,10 +5,10 @@
     <parent>
         <groupId>org.orderapi</groupId>
         <artifactId>parent</artifactId>
-        <version>0.0.1-SNAPSHOT</version>
+        <version>${revision}${changelist}</version>
     </parent>
     <artifactId>product</artifactId>
-    <version>0.0.1-SNAPSHOT</version>
+    <version>${revision}${changelist}</version>
     <name>product</name>
     <description>product project for Spring Boot</description>
 
@@ -53,7 +53,7 @@
         <dependency>
             <groupId>org.orderapi</groupId>
             <artifactId>common</artifactId>
-            <version>0.0.1-SNAPSHOT</version>
+            <version>${revision}${changelist}</version>
         </dependency>
     </dependencies>
 </project>
